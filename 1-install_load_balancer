@@ -13,7 +13,7 @@ server_config=\
 frontend  leo-frontend
         bind *:80
         mode http
-        default_backend yonas-backend
+        default_backend leo-backend
 backend leo-backend
         balance roundrobin
         server 63210-web-01 54.162.0.146:80 check
