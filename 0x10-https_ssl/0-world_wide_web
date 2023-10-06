@@ -1,17 +1,19 @@
- Bash script that will display information about the subdomains
+#!/usr/bin/env bash
+# Usage: ./1-world_wide_web <domain> <subdomain>
+# Display information about subdomains.
 
-dns_config () {
-    script=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
-    echo "$2 $script" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
+domain_information () {
+    line=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
+    echo "$2 $line" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
 }
 
 if [ "$#" == 1 ]
 then
-  dns_config "$1" "www"
-  dns_config "$1" "lb-01"
-  dns_config "$1" "web-01"
-  dns_config "$1" "web-02"
+  domain_information "$1" "www"
+  domain_information "$1" "lb-01"
+  domain_information "$1" "web-01"
+  domain_information "$1" "web-02"
 elif [ "$#" == 2 ]
 then
-  dns_config "$1" "$2"
+  domain_information "$1" "$2"
 fi
